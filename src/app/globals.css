@@ -1,0 +1,258 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'SKIP Std B';
+  src: url('/fonts/FOT-Skip%20Std%20B.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Rodin Pro DB';
+  src: url('/fonts/FOT-Rodin%20Pro%20DB.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Karrik';
+  src: url('/fonts/Karrik-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─── Root ────────────────────────────────────────────────────── */
+:root {
+  --blue: #0033BB;
+  --mid: #0044CC;
+  --bright: #0055EE;
+  --vivid: #1A6FFF;
+  --dark: #001166;
+  --deeper: #000D44;
+  --red: #FF1133;
+  --pink: #FF0088;
+  --cyan: #00DDFF;
+  --gold: #FFD700;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--deeper);
+  min-height: 100vh;
+}
+
+/* ─── Scrollbar ───────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000D44;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0055EE;
+  border-radius: 2px;
+}
+
+/* ─── The iconic P3R large circle background ─────────────────── */
+.p3r-sphere {
+  position: fixed;
+  width: 110vmax;
+  height: 110vmax;
+  border-radius: 50%;
+  top: 50%;
+  left: 68%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle at 40% 40%, #2266FF 0%, #0044DD 35%, #001188 65%, transparent 85%);
+  pointer-events: none;
+  z-index: 0;
+  animation: circle-pulse 4s ease-in-out infinite;
+}
+
+@keyframes circle-pulse {
+
+  0%,
+  100% {
+    opacity: .9;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.02);
+  }
+}
+
+/* ─── Decorative giant background letters ────────────────────── */
+.p3r-deco-text {
+  position: fixed;
+  font-family: 'SKIP Std B', 'Rodin Pro DB', sans-serif;
+  font-weight: 900;
+  font-size: clamp(160px, 22vw, 320px);
+  color: #05050A;
+  /* Stark black for giant text */
+  opacity: 0.8;
+  pointer-events: none;
+  z-index: 0;
+  user-select: none;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+/* ─── Diagonal slash accent ──────────────────────────────────── */
+.p3r-slash {
+  display: inline-block;
+  width: 4px;
+  height: 100%;
+  background: var(--red);
+  transform: skewX(-12deg);
+}
+
+/* ─── Component classes ──────────────────────────────────────── */
+@layer components {
+
+  /* Card — sharp, blue with white outline */
+  .p3r-card {
+    @apply relative bg-[#05050A] overflow-hidden;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+
+  .p3r-card-white {
+    @apply relative bg-white overflow-hidden text-[#05050A];
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+
+  /* Section header — giant bold italic Oswald */
+  .p3r-section-title {
+    @apply font-heading font-bold italic uppercase text-white tracking-wide;
+    font-size: clamp(1.4rem, 3vw, 2.2rem);
+    text-shadow: 4px 4px 0 #05050A;
+  }
+
+  /* Active badge / pill */
+  .p3r-active-badge {
+    @apply inline-block bg-p3r-red text-white font-heading font-bold italic uppercase px-4 py-1 tracking-wider;
+    clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+  }
+
+  /* Inputs */
+  .p3r-input {
+    @apply w-full bg-[#0A0A14] border-2 border-[#0055EE] text-white font-mono text-sm px-4 py-2.5 placeholder-blue-400 focus:outline-none focus:border-p3r-cyan focus:bg-[#001A88] transition-colors;
+  }
+
+  .p3r-label {
+    @apply block text-p3r-cyan font-heading font-bold italic uppercase text-xs tracking-widest mb-1;
+    text-shadow: 1px 1px 0 #05050A;
+  }
+
+  /* Buttons */
+  .p3r-btn-primary {
+    @apply relative bg-p3r-red text-white font-heading font-bold italic uppercase tracking-wider px-8 py-3 transition-all duration-150 cursor-pointer hover:bg-[#FF3355] active:scale-95;
+    clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+  }
+
+  .p3r-btn-blue {
+    @apply relative bg-p3r-bright text-white font-heading font-bold italic uppercase tracking-wider px-8 py-3 transition-all duration-150 cursor-pointer border-2 border-[#4499FF] hover:bg-p3r-vivid active:scale-95;
+    clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+  }
+
+  .p3r-btn-outline {
+    @apply relative bg-[#05050A] text-white font-heading font-bold italic uppercase tracking-wider px-8 py-3 transition-all duration-150 cursor-pointer border-2 border-white hover:bg-white hover:text-[#05050A] active:scale-95;
+    clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+  }
+
+  /* Table */
+  .p3r-table {
+    @apply w-full font-mono text-sm;
+  }
+
+  .p3r-table th {
+    @apply font-heading font-bold italic uppercase text-p3r-cyan text-xs tracking-widest py-3 px-4 text-left bg-[#030308];
+    border-bottom: 1px solid rgba(0,221,255,0.15);
+  }
+
+  .p3r-table td {
+    @apply py-3 px-4 text-white bg-[#0A0A14];
+  }
+
+  .p3r-table tbody tr:nth-child(odd) td {
+    @apply bg-[#07070F];
+  }
+
+  .p3r-table tbody tr:hover td {
+    @apply bg-[rgba(0,221,255,0.06)];
+  }
+
+  /* Badge */
+  .p3r-badge {
+    @apply inline-flex items-center px-3 py-0.5 font-heading font-bold italic uppercase text-xs tracking-wider bg-[#0A1A44] text-p3r-cyan;
+  }
+
+  .p3r-badge-red {
+    @apply inline-flex items-center px-3 py-0.5 font-heading font-bold italic uppercase text-xs tracking-wider bg-p3r-red text-white;
+  }
+
+  .p3r-badge-gold {
+    @apply inline-flex items-center px-3 py-0.5 font-heading font-bold italic uppercase text-xs tracking-wider bg-[#1A1200] text-p3r-gold;
+  }
+
+  /* Divider with slash motif */
+  .p3r-divider {
+    @apply flex items-center gap-3 my-5;
+  }
+
+  .p3r-divider::before,
+  .p3r-divider::after {
+    content: '';
+    @apply flex-1 h-0.5 bg-[#0055EE];
+  }
+
+  /* Stat number display */
+  .p3r-stat-num {
+    @apply font-display font-black text-p3r-cyan;
+    font-size: clamp(2rem, 4vw, 3rem);
+    text-shadow: 2px 2px 0 #05050A, 0 0 20px rgba(0, 221, 255, 0.6);
+  }
+}
+
+/* ─── Animations ──────────────────────────────────────────────── */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ─── Leaflet override ───────────────────────────────────────── */
+.leaflet-container {
+  background: #05050A !important;
+}
+
+.leaflet-tile {
+  filter: brightness(0.4) saturate(0.2) hue-rotate(200deg) !important;
+}
