@@ -76,6 +76,7 @@ export const InteractiveRouteMap = () => {
 
     const initMap = async () => {
       const L = (await import("leaflet")).default;
+      // @ts-ignore
       await import("leaflet/dist/leaflet.css");
 
       if (leafletRef.current) {

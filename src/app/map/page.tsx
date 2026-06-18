@@ -56,6 +56,7 @@ export default function MapPage() {
 
       const L = (await import("leaflet")).default;
 
+      // @ts-ignore
       await import("leaflet/dist/leaflet.css");
 
 
