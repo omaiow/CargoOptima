@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { useAppStore } from "@/lib/store";
 
 export const InteractiveRouteMap = () => {
@@ -18,7 +18,7 @@ export const InteractiveRouteMap = () => {
   const [destQuery, setDestQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
 
-  const calculateDistance = async (origin: [number, number], dest: [number, number]) => {
+  const calculateDistance = useCallback(async (origin: [number, number], dest: [number, number]) => {
     try {
       const res = await fetch(`https://router.project-osrm.org/route/v1/driving/${origin[1]},${origin[0]};${dest[1]},${dest[0]}?overview=false`);
       const data = await res.json();
@@ -34,7 +34,7 @@ export const InteractiveRouteMap = () => {
       console.error("OSRM failed, using fallback", err);
       setVehicleConfig({ customFromCoords: origin, customToCoords: dest });
     }
-  };
+  }, [setVehicleConfig]);
 
   const handleSearch = async (type: "origin" | "dest") => {
     const query = type === "origin" ? originQuery : destQuery;
@@ -89,7 +89,7 @@ export const InteractiveRouteMap = () => {
 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: "© OpenStreetMap contributors",
-      }).addTo(map as Parameters<typeof L.tileLayer>[1]);
+      }).addTo(map as any);
 
       const createIcon = (color: string) => L.divIcon({
         className: "",
@@ -106,20 +106,20 @@ export const InteractiveRouteMap = () => {
         if (fromCoords) {
           const m = L.marker(fromCoords, { icon: createIcon("#00d4ff") })
             .bindTooltip("Origin", { permanent: true, className: "leaflet-tooltip-p3" })
-            .addTo(map as Parameters<typeof L.tileLayer>[1]);
+            .addTo(map as any);
           markers.push(m);
         }
         if (toCoords) {
           const m = L.marker(toCoords, { icon: createIcon("#ffd700") })
             .bindTooltip("Destination", { permanent: true, className: "leaflet-tooltip-p3" })
-            .addTo(map as Parameters<typeof L.tileLayer>[1]);
+            .addTo(map as any);
           markers.push(m);
         }
 
         if (fromCoords && toCoords) {
           polyline = L.polyline([fromCoords, toCoords], {
             color: "#00d4ff", weight: 3, opacity: 0.8, dashArray: "8 4"
-          }).addTo(map as Parameters<typeof L.tileLayer>[1]);
+          }).addTo(map as any);
           
           const bounds = L.latLngBounds([fromCoords, toCoords]);
           (map as any).fitBounds(bounds, { padding: [40, 40] });
@@ -154,7 +154,7 @@ export const InteractiveRouteMap = () => {
         leafletRef.current = null;
       }
     };
-  }, [fromCoords, toCoords, pinState]); // Removed calculateDistance from deps to avoid re-renders
+  }, [fromCoords, toCoords, pinState, calculateDistance]);
 
   return (
     <div className="space-y-3 mt-4 mb-4">
